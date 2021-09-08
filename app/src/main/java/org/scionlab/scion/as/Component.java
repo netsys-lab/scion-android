@@ -96,12 +96,6 @@ abstract class Component {
                 .watchFor(readyPattern, this::setReady);
     }
 
-    Logger.LogThread createLogThreadConsole(Pattern readyPattern) {
-        return Logger.createLogThread(getTag(),
-                componentRegistry.getUncaughtExceptionHandler())
-                .watchFor(readyPattern, this::setReady);
-    }
-
     synchronized void stateHasChanged() {
         if (doneWaiting && !mayRun())
             stop();

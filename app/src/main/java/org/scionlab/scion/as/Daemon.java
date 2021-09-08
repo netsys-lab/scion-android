@@ -37,7 +37,6 @@ class Daemon extends Component {
                 LOG_LEVEL,
                 storage.getAbsolutePath(TRUST_DATABASE_PATH),
                 storage.getAbsolutePath(PATH_DATABASE_PATH)));
-//        createLogThread(LOG_PATH, READY_PATTERN).start();
         return true;
     }
 
@@ -46,6 +45,7 @@ class Daemon extends Component {
         process.connectToDispatcher()
                 .addArgument(BINARY_FLAG)
                 .addConfigurationFile(CONFIG_PATH)
-                .run(createLogThreadConsole(READY_PATTERN));
+                .watchFor(READY_PATTERN,() -> setReady())
+                .run();
     }
 }

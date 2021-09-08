@@ -27,6 +27,10 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -59,7 +63,7 @@ public class VPNPermissionFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.activity = Objects.requireNonNull(getActivity());
+        this.activity = requireActivity();
 
         if (!isPackageInstalled(PACKAGE_NAME)) {
             Timber.e("OpenVPN for Android is not installed");
@@ -69,6 +73,18 @@ public class VPNPermissionFragment extends Fragment {
             return;
         }
 
+        ActivityResultLauncher<Intent> launchActivity = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                            Timber.i("VPN permission granted");
+                            callback.accept(null);
+                        } else {
+                            Timber.i("VPN permission denied");
+                            callback.accept("The VPN permission is required to run SCION.");
+                        }
+                });
+
         Intent intent = new Intent(IOpenVPNAPIService.class.getName()).setPackage(PACKAGE_NAME);
         serviceConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName className, IBinder service) {
@@ -77,9 +93,11 @@ public class VPNPermissionFragment extends Fragment {
                 try {
                     Intent intent = openVPNAPIService.prepare(activity.getPackageName());
                     if (intent != null)
-                        startActivityForResult(intent, 0);
-                    else
-                        onActivityResult(0, Activity.RESULT_OK, null);
+                        launchActivity.launch(intent);
+                    else{
+                        Timber.i("VPN permission granted");
+                        callback.accept(null);
+                    }
                 } catch (RemoteException e) {
                     Timber.e(e);
                     callback.accept(e.getLocalizedMessage());
@@ -99,16 +117,7 @@ public class VPNPermissionFragment extends Fragment {
             activity.unbindService(serviceConnection);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            Timber.i("VPN permission granted");
-            callback.accept(null);
-        } else {
-            Timber.i("VPN permission denied");
-            callback.accept("The VPN permission is required to run SCION.");
-        }
-    }
+
 
     @SuppressWarnings("SameParameterValue")
     private boolean isPackageInstalled(String packageName) {

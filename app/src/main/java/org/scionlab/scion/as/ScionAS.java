@@ -135,9 +135,9 @@ public class ScionAS {
                         : storage.readFile(new File(vpnConfigFile))))
                 .start(new BorderRouter())
                 .start(new ControlServer())
-                .start(new Dispatcher())
                 .start(new Daemon())
                 .start(scmp = new Scmp(pingAddress))
+                .start(new Dispatcher())
                 //.start(new SensorFetcher())
                 .notifyStateChange();
     }

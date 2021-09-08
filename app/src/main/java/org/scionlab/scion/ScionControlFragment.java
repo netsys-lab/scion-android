@@ -110,7 +110,7 @@ public class ScionControlFragment extends Fragment {
                             Toast.makeText(this.getActivity(), errorMessage, Toast.LENGTH_LONG).show();
                             return;
                         }
-                        chooseScionLabConfiguration();
+                        chooseScionLabConfiguration(activity);
                     }));
         } else {
             scionButton.setText(R.string.stop);
@@ -142,14 +142,14 @@ public class ScionControlFragment extends Fragment {
         });
     }
 
-    private void chooseScionLabConfiguration() {
+    private void chooseScionLabConfiguration(Activity activity) {
         Intent chooseFile;
         Intent intent;
         chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
         chooseFile.setType("*/*");
         intent = Intent.createChooser(chooseFile, getString(R.string.chooseScionLabConfiguration));
-        startActivityForResult(intent, 0);
+        activity.startActivityForResult(intent, 0);
         Toast.makeText(this.getContext(), R.string.chooseScionLabConfigurationToast, Toast.LENGTH_LONG).show();
     }
 }

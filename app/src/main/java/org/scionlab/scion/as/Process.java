@@ -131,13 +131,9 @@ public class Process {
         return processBuilder;
     }
 
-    public void run(){
-        this.run((Logger.LogThread) null);
-    }
-
     // Runs the SCION binary and blocks until the process exits or the thread is interrupted.
     // Thus, this should only be called from inside a (dedicated) thread.
-    public void run(Logger.LogThread lt) {
+    public void run() {
         java.lang.Process process;
         try {
             process = log(build()).start();
@@ -150,8 +146,6 @@ public class Process {
         if (process == null)
             ret = -1;
         else {
-            if (lt !=null)
-                logThread = lt;
             // this should create a separate thread that is only used to consume each line of the
             // process' stdout/stderr stream (see Logger.LogThread)
             if (logThread != null)
