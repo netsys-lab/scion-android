@@ -46,7 +46,7 @@ public class ScionLabAS extends ScionAS {
         Timber.i("extracting SCIONLab configuration");
         ArchiverFactory.createArchiver(ArchiveFormat.TAR, CompressionType.GZIP)
                 .extract(scionLabConfigurationInputStream, storage.getFile(TMP_DIRECTORY_PATH));
-        Optional<String> vpnConfigPath = storage.findInDirectory(TMP_DIRECTORY_PATH, TMP_VPN_CONFIG_PATH_REGEX);
+        Optional<String> vpnConfigPath = storage.findInDirectory(TMP_VPN_DIRECTORY_PATH, TMP_VPN_CONFIG_PATH_REGEX);
         start(Version.SCIONLAB,
                 storage.getAbsolutePath(TMP_GEN_DIRECTORY_PATH),
                 vpnConfigPath.map(storage::getAbsolutePath).orElse(null),

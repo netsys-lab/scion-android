@@ -34,11 +34,10 @@ class Daemon extends Component {
         storage.writeFile(CONFIG_PATH, String.format(
                 storage.readAssetFile(CONFIG_TEMPLATE_PATH),
                 storage.getAbsolutePath(Config.Scion.CONFIG_DIRECTORY_PATH),
-                storage.getAbsolutePath(LOG_PATH),
                 LOG_LEVEL,
                 storage.getAbsolutePath(TRUST_DATABASE_PATH),
                 storage.getAbsolutePath(PATH_DATABASE_PATH)));
-        createLogThread(LOG_PATH, READY_PATTERN).start();
+//        createLogThread(LOG_PATH, READY_PATTERN).start();
         return true;
     }
 
@@ -47,6 +46,6 @@ class Daemon extends Component {
         process.connectToDispatcher()
                 .addArgument(BINARY_FLAG)
                 .addConfigurationFile(CONFIG_PATH)
-                .run();
+                .run(createLogThreadConsole(READY_PATTERN));
     }
 }

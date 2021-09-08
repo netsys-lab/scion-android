@@ -107,16 +107,12 @@ public class ScionAS {
         }
         storage.deleteFileOrDirectory(GEN_DIRECTORY_PATH);
         storage.copyFileOrDirectory(new File(genDirectory), GEN_DIRECTORY_PATH);
+        Optional<String> certsPath = storage.findInDirectory(GEN_DIRECTORY_PATH, CERTS_DIRECTORY_PATH_REGEX);
+        Optional<String> keysPath = storage.findInDirectory(GEN_DIRECTORY_PATH, KEYS_DIRECTORY_PATH_REGEX);
+        Optional<String> cryptoPath = storage.findInDirectory(GEN_DIRECTORY_PATH, CRYPTO_DIRECTORY_PATH_REGEX);
+        Optional<String> topologyPath = storage.findInDirectory(GEN_DIRECTORY_PATH, TOPOLOGY_PATH_REGEX);
 
-        Optional<String> isdPath = storage.findInDirectory(GEN_DIRECTORY_PATH, ISD_DIRECTORY_PATH_REGEX);
-        Optional<String> asPath = storage.findInDirectory(isdPath, AS_DIRECTORY_PATH_REGEX);
-        Optional<String> componentPath = storage.findInDirectory(asPath, COMPONENT_DIRECTORY_PATH_REGEX);
-        Optional<String> endhostPath = storage.findInDirectory(asPath, ENDHOST_DIRECTORY_PATH_REGEX);
-        Optional<String> certsPath = storage.findInDirectory(componentPath, CERTS_DIRECTORY_PATH_REGEX);
-        Optional<String> keysPath = storage.findInDirectory(componentPath, KEYS_DIRECTORY_PATH_REGEX);
-        Optional<String> topologyPath = storage.findInDirectory(componentPath, TOPOLOGY_PATH_REGEX);
-
-        if (!Stream.of(isdPath, asPath, componentPath, endhostPath, certsPath, keysPath, topologyPath)
+        if (!Stream.of(certsPath, keysPath, topologyPath)
                 .allMatch(Optional::isPresent)) {
             Timber.e("unexpected gen directory structure");
             return;
@@ -126,6 +122,7 @@ public class ScionAS {
         storage.createDirectory(CONFIG_DIRECTORY_PATH);
         storage.copyFileOrDirectory(certsPath.get(), CERTS_DIRECTORY_PATH);
         storage.copyFileOrDirectory(keysPath.get(), KEYS_DIRECTORY_PATH);
+        storage.copyFileOrDirectory(cryptoPath.get(), CRYPTO_DIRECTORY_PATH);
         if (!writeTopology(topologyPath.get()))
             return;
         storage.deleteFileOrDirectory(GEN_DIRECTORY_PATH);
@@ -176,15 +173,12 @@ public class ScionAS {
             JSONObject interfaces = borderRouters.getJSONObject(borderRouters.keys().next()).getJSONObject(INTERFACES_JSON_PATH);
             JSONObject iface = interfaces.getJSONObject(interfaces.keys().next());
             String ia = root.getString(IA_JSON_PATH);
-            String overlayAddr = iface.getJSONObject(PUBLIC_OVERLAY_JSON_PATH).getString(OVERLAY_ADDR_JSON_PATH);
-            int overlayPort = iface.getJSONObject(PUBLIC_OVERLAY_JSON_PATH).getInt(OVERLAY_PORT_JSON_PATH);
+            String overlayAddr = iface.getJSONObject(UNDERLAY_JSON_PATH).getString(PUBLIC_UNDERLAY_JSON_PATH);
             String remoteIa = iface.getString(IA_JSON_PATH);
-            String remoteOverlayAddr = iface.getJSONObject(REMOTE_OVERLAY_JSON_PATH).getString(OVERLAY_ADDR_JSON_PATH);
-            int remoteOverlayPort = iface.getJSONObject(REMOTE_OVERLAY_JSON_PATH).getInt(OVERLAY_PORT_JSON_PATH);
+            String remoteOverlayAddr = iface.getJSONObject(UNDERLAY_JSON_PATH).getString(REMOTE_UNDERLAY_JSON_PATH);
             storage.writeFile(TOPOLOGY_PATH,
                     String.format(storage.readAssetFile(TOPOLOGY_TEMPLATE_PATH),
-                        remoteIa, overlayAddr, overlayPort,
-                        remoteOverlayAddr, remoteOverlayPort, ia));
+                        remoteIa, overlayAddr, remoteOverlayAddr, ia));
         } catch (JSONException e) {
             Timber.e(e);
             return false;

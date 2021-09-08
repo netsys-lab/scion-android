@@ -10,11 +10,8 @@ config_dir = "%s"
 [metrics]
 prometheus = "127.0.0.1:30454"
 
-[log.file]
-path = "%s"
+[log.console]
 level = "%s"
-max_age = 3
-max_backups = 1
 
 [trust_db]
 connection = "%s"
@@ -25,8 +22,9 @@ connection = "%s"
 [beacon_db]
 connection = "%s"
 
-[bs]
+[beaconing]
 origination_interval = "5s"
 propagation_interval = "5s"
-rev_overlap = "5s"
-rev_ttl = "20s"
+
+[quic]
+address = "127.0.0.1:30354"

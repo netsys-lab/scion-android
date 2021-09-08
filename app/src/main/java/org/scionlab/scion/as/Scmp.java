@@ -54,7 +54,7 @@ class Scmp extends Component {
         process.addArgument(BINARY_FLAG)
                 .addArgument(ECHO_FLAG)
                 .addArgument(DISPATCHER_SOCKET_FLAG, storage.getAbsolutePath(Config.Dispatcher.SOCKET_PATH))
-                .addArgument(REMOTE_FLAG, remoteAddress)
+                .addArgument(remoteAddress)
                 .watchFor(READY_PATTERN, () -> {
                     lastPingReceived = System.currentTimeMillis();
                     setReady();

@@ -96,6 +96,12 @@ abstract class Component {
                 .watchFor(readyPattern, this::setReady);
     }
 
+    Logger.LogThread createLogThreadConsole(Pattern readyPattern) {
+        return Logger.createLogThread(getTag(),
+                componentRegistry.getUncaughtExceptionHandler())
+                .watchFor(readyPattern, this::setReady);
+    }
+
     synchronized void stateHasChanged() {
         if (doneWaiting && !mayRun())
             stop();
@@ -117,7 +123,6 @@ abstract class Component {
             throw new RuntimeException("no binary path given");
         process = Process.from(binaryPath, getTag(), storage,
                 componentRegistry.getUncaughtExceptionHandler());
-
         if (!prepare()) {
             timber().e("failed to prepare component");
             return;
