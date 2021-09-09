@@ -19,7 +19,9 @@
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
             </activity>
-        <activity android:name=".WebActivity" />
-        <activity android:name=".LogActivity" />
+        <activity android:name=".WebActivity"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".LogActivity"
+            tools:ignore="Instantiatable" />
     </application>
 </manifest>

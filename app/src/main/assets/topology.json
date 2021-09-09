@@ -1,67 +1,39 @@
 {
-  "Attributes": [],
-  "BorderRouters": {
+  "attributes": [],
+  "border_routers": {
     "border_router": {
-      "CtrlAddr": {
-        "IPv4": {
-          "Public": {
-            "Addr": "127.0.0.1",
-            "L4Port": 30045
-          }
-        }
-      },
-      "Interfaces": {
+      "ctrl_addr": "127.0.0.1:30201",
+      "interfaces": {
         "1": {
-          "Bandwidth": 1000,
-          "ISD_AS": "%s",
-          "LinkTo": "PARENT",
-          "MTU": 1472,
-          "Overlay": "UDP/IPv4",
-          "PublicOverlay": {
-            "Addr": "%s",
-            "OverlayPort": %d
-          },
-          "RemoteOverlay": {
-            "Addr": "%s",
-            "OverlayPort": %d
+          "bandwidth": 1000,
+          "isd_as": "%s",
+          "link_to": "PARENT",
+          "mtu": 1472,
+          "underlay": {
+            "public": "%s",
+            "remote": "%s"
           }
         }
       },
-      "InternalAddrs": {
-        "IPv4": {
-          "PublicOverlay": {
-            "Addr": "127.0.0.1",
-            "OverlayPort": 31045
-          }
-        }
-      }
+      "internal_addr": "127.0.0.1:30001"
     }
   },
-  "CertificateService": {
-    "certificate_server": {
-      "Addrs": {
-        "IPv4": {
-          "Public": {
-            "Addr": "127.0.0.1",
-            "L4Port": 31042
-          }
-        }
-      }
+  "control_service": {
+    "control_service": {
+      "addr": "127.0.0.1:30254"
     }
   },
-  "ControlService": {
-    "control_server": {
-      "Addrs": {
-        "IPv4": {
-          "Public": {
-            "Addr": "127.0.0.1",
-            "L4Port": 30254
-          }
-        }
-      }
+  "discovery_service": {
+    "ds-1": {
+      "addr": "127.0.0.1:30254"
     }
   },
-  "ISD_AS": "%s",
-  "MTU": 1472,
-  "Overlay": "UDP/IPv4"
+  "isd_as": "%s",
+  "mtu": 1472,
+  "sigs": {
+    "sig-1": {
+      "ctrl_addr": "127.0.0.1:30256",
+      "data_addr": "127.0.0.1:30056"
+    }
+  }
 }

@@ -3,24 +3,18 @@
 # The structure of this file depends on the SCION version and is thus linked to the binary located in jniLibs.
 
 [general]
-id = "daemon"
+id = "sd"
 reconnect_to_dispatcher = true
 config_dir = "%s"
 
 [metrics]
 prometheus = "127.0.0.1:30455"
 
-[log.file]
-path = "%s"
+[log.console]
 level = "%s"
-max_age = 3
-max_backups = 1
 
 [trust_db]
 connection = "%s"
 
 [path_db]
 connection = "%s"
-
-[sd]
-address = "127.0.0.1:30255"

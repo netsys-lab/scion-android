@@ -117,7 +117,6 @@ abstract class Component {
             throw new RuntimeException("no binary path given");
         process = Process.from(binaryPath, getTag(), storage,
                 componentRegistry.getUncaughtExceptionHandler());
-
         if (!prepare()) {
             timber().e("failed to prepare component");
             return;

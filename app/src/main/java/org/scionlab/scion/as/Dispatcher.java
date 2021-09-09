@@ -29,9 +29,7 @@ class Dispatcher extends Component {
         storage.writeFile(CONFIG_PATH, String.format(
                 storage.readAssetFile(CONFIG_TEMPLATE_PATH),
                 storage.getAbsolutePath(SOCKET_PATH),
-                storage.getAbsolutePath(LOG_PATH),
                 LOG_LEVEL));
-        createLogThread(LOG_PATH, READY_PATTERN).start();
         return true;
     }
 
@@ -39,6 +37,7 @@ class Dispatcher extends Component {
     void run() {
         process.addArgument(BINARY_FLAG)
                 .addConfigurationFile(CONFIG_PATH)
+                .watchFor(READY_PATTERN,() -> setReady())
                 .run();
     }
 }

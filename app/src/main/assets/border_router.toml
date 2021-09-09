@@ -1,5 +1,5 @@
 # This is a configuration file template for the SCION border router.
-# It is instantiated with concrete values in the BorderRouter class.
+# It is instantiated with concrete values in the ControlServer class.
 # The structure of this file depends on the SCION version and is thus linked to the binary located in jniLibs.
 
 [general]
@@ -10,8 +10,5 @@ reconnect_to_dispatcher = true
 [metrics]
 prometheus = "127.0.0.1:31445"
 
-[log.file]
-path = "%s"
+[log.console]
 level = "%s"
-max_age = 3
-max_backups = 1

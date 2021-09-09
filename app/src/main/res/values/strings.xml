@@ -10,7 +10,7 @@
     <string name="notificationChannelDescription">Provides a connection to the SCION network.</string>
     <string name="pingAddressHint">Ping SCION address</string>
     <string name="sensorAddressHint">Sensor server SCION address</string>
-    <string name="pingAddress">17-ffaa:0:1102,[0.0.0.0]</string>
+    <string name="pingAddress">19-ffaa:0:1301,[127.0.0.1]</string>
     <string name="borderRouter">Border Router</string>
     <string name="controlServer">Control Server</string>
     <string name="daemon">Daemon</string>

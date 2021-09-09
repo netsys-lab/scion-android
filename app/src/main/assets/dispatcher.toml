@@ -10,8 +10,5 @@ application_socket = "%s"
 [metrics]
 prometheus = "127.0.0.1:30441"
 
-[log.file]
-path = "%s"
+[log.console]
 level = "%s"
-max_age = 3
-max_backups = 1

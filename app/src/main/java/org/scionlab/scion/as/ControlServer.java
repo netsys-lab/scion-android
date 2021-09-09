@@ -31,12 +31,10 @@ class ControlServer extends Component {
         storage.writeFile(CONFIG_PATH, String.format(
                 storage.readAssetFile(CONFIG_TEMPLATE_PATH),
                 storage.getAbsolutePath(Config.Scion.CONFIG_DIRECTORY_PATH),
-                storage.getAbsolutePath(LOG_PATH),
                 LOG_LEVEL,
                 storage.getAbsolutePath(TRUST_DATABASE_PATH),
                 storage.getAbsolutePath(PATH_DATABASE_PATH),
                 storage.getAbsolutePath(BEACON_DATABASE_PATH)));
-        createLogThread(LOG_PATH, READY_PATTERN).start();
         return true;
     }
 
@@ -45,6 +43,7 @@ class ControlServer extends Component {
         process.connectToDispatcher()
                 .addArgument(BINARY_FLAG)
                 .addConfigurationFile(CONFIG_PATH)
+                .watchFor(READY_PATTERN,() -> setReady())
                 .run();
     }
 }

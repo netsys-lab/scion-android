@@ -41,9 +41,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
-import org.scionlab.scion.as.Logger;
 import org.scionlab.scion.as.ScionAS;
 import org.scionlab.scion.as.ScionLabAS;
+
+import static org.scionlab.scion.as.Config.SCION_VERSION;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setSubtitle("Version: " + ScionLabAS.getScionVersion(this));
+//        getSupportActionBar().setSubtitle("Version: " + SCION_VERSION);
         abdt.syncState();
 
         navigationView = findViewById(R.id.nav_view);
