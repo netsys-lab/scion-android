@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import static org.scionlab.scion.as.Logger.*;
 
 public class Config {
-    public static final String SCION_VERSION = "scionlab v2021.09";
+    public static final String SCION_VERSION = "v2020.12-386-gfc081beb";
     static class Process {
         static final String WORKING_DIRECTORY_PATH = "EXTERNAL/workdir"; // working directory of SCION processes
         static final String CONFIG_FLAG = "--config"; // flag that specifies a configuration file
@@ -103,7 +103,7 @@ public class Config {
 
     public static class Scion {
         public static final String SCIONLAB_BINARY_PATH = "libscion-scionlab.so"; // file name of SCION's scionlab binary in jniLibs (shipped and used by default)
-        public static final String VERSION_FLAG = "-lib_env_version"; // flag to obtain version information
+        public static final String VERSION_FLAG = "version"; // flag to obtain version information
         public static final String CONFIG_DIRECTORY_PATH = "EXTERNAL/config"; // path to config directory where all configuration files are stored
         public static final String TMP_DIRECTORY_PATH = "EXTERNAL/tmp"; // path to temporary directory used for extracting SCIONLab configuration
         public static final String TMP_GEN_DIRECTORY_PATH = TMP_DIRECTORY_PATH + "/etc/scion"; // path to gen directory extracted from configuration

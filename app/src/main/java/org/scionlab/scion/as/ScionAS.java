@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 
 import timber.log.Timber;
 
-import static org.scionlab.scion.as.Config.Dispatcher.BINARY_FLAG;
+import static org.scionlab.scion.as.Config.Scmp.BINARY_FLAG;
 import static org.scionlab.scion.as.Config.Logger.DELETE_PATTERN;
 import static org.scionlab.scion.as.Config.Logger.UPDATE_INTERVAL;
 import static org.scionlab.scion.as.Config.Scion.*;
@@ -73,7 +73,7 @@ public class ScionAS {
 
         public String getScionVersion(Storage storage) {
             AtomicReference<String> version = new AtomicReference<>();
-            Process.from(binaryPath, null, storage, new Logger.LogThread(
+            Process.from(binaryPath, "version", storage, new Logger.LogThread(
                     version::set, DELETE_PATTERN, UPDATE_INTERVAL, null))
                     .addArgument(BINARY_FLAG).addArgument(VERSION_FLAG).run();
             String _version = version.get();
