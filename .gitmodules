@@ -1,4 +1,4 @@
 [submodule "app/src/main/jniLibs"]
 	path = app/src/main/jniLibs
-	url = https://github.com/tjohn327/scion-android-binary.git
-	branch = jniLibs-scionlab-fc081be
+	url = https://github.com/netsys-lab/scion-android-binary.git
+	branch = jniLibs-scionlab
