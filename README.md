@@ -61,5 +61,5 @@ This software uses the following libraries:
 For more information on this project, contact the [NetSys group](http://www.netsys.ovgu.de/).
 
 © 2019 Vera Clemens, Tom Kranz<br>
-© 2020 Tom Heimbrodt, Elias Kuiter
+© 2020 Tom Heimbrodt, Elias Kuiter<br>
 © 2021 Tony John
