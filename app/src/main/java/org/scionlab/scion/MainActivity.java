@@ -96,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
         drawer.addDrawerListener(abdt);
 
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setSubtitle("Version: " + ScionLabAS.getScionVersion(this));
-//        getSupportActionBar().setSubtitle("Version: " + SCION_VERSION);
+//        getSupportActionBar().setSubtitle("Version: " + ScionLabAS.getScionVersion(this));
+        getSupportActionBar().setSubtitle("Version: " + SCION_VERSION);
         abdt.syncState();
 
         navigationView = findViewById(R.id.nav_view);

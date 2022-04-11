@@ -5,15 +5,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <queries>
+        <package android:name="de.blinkt.openvpn" />
+    </queries>
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/applicationName"
         android:theme="@style/AppTheme"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:extractNativeLibs="true"
         tools:replace="android:allowBackup">
             <service android:name="org.scionlab.scion.ScionService"/>
-            <activity android:name="org.scionlab.scion.MainActivity">
+            <activity android:name="org.scionlab.scion.MainActivity"
+                android:exported="true">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
                     <category android:name="android.intent.category.LAUNCHER" />
