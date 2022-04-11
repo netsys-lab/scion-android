@@ -11,7 +11,7 @@ The SCION app enables you to run a [SCION](https://www.scion-architecture.net/) 
 Clone this repository:
 
 ```
-git clone --recurse-submodules https://github.com/ekuiter/scion-android.git
+git clone --recurse-submodules https://github.com/netsys-lab/scion-android.git
 cd scion-android
 ```
 
