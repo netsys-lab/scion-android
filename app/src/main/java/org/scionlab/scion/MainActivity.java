@@ -205,11 +205,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (resultCode != RESULT_OK)
             return;
-        Uri uri = data.getData();
-        if (uri != null) {
-            scionLabConfigurationUri = uri.toString();
-            preferences.edit().putString(SCIONLAB_CONFIGURATION_URI, scionLabConfigurationUri).apply();
-            ScionService.start(this, scionLabConfigurationUri, pingAddress);
+        try {
+            Uri uri = data.getData();
+            if (uri != null) {
+                scionLabConfigurationUri = uri.toString();
+                preferences.edit().putString(SCIONLAB_CONFIGURATION_URI, scionLabConfigurationUri).apply();
+                ScionService.start(this, scionLabConfigurationUri, pingAddress);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

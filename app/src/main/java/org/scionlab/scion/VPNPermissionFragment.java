@@ -26,6 +26,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -66,10 +67,14 @@ public class VPNPermissionFragment extends Fragment {
         this.activity = requireActivity();
 
         if (!isPackageInstalled(PACKAGE_NAME)) {
-            Timber.e("OpenVPN for Android is not installed");
-            callback.accept("Please install OpenVPN for Android to run SCION, then try again.");
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=" + PACKAGE_NAME)));
+            Timber.e("This app requires OpenVPN for Android");
+            CharSequence text = "This app requires OpenVPN for Android\nPlease install it and try again";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+//            callback.accept("Please install OpenVPN for Android to run SCION, then try again.");
+//             startActivity(new Intent(Intent.ACTION_VIEW,
+//                    Uri.parse("market://details?id=" + PACKAGE_NAME)));
             return;
         }
 
