@@ -17,6 +17,8 @@
 
 package org.scionlab.scion;
 
+import static android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC;
+
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -33,6 +35,9 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import org.scionlab.scion.as.ScionAS;
 import org.scionlab.scion.as.ScionLabAS;
@@ -48,13 +53,13 @@ import timber.log.Timber;
 public class ScionService extends Service {
     private static final int NOTIFICATION_ID  = 1;
     private static final String NOTIFICATION_CHANNEL = ScionService.class.getCanonicalName() + ".NOTIFICATION_CHANNEL";
-    private static final String SCIONLAB_CONFIGURATION_URI = ScionService.class.getCanonicalName() + ".SCIONLAB_CONFIGURATION_URI";
-    private static final String PING_ADDRESS = ScionService.class.getCanonicalName() + ".PING_ADDRESS";
+    static final String SCIONLAB_CONFIGURATION_URI = ScionService.class.getCanonicalName() + ".SCIONLAB_CONFIGURATION_URI";
+    static final String PING_ADDRESS = ScionService.class.getCanonicalName() + ".PING_ADDRESS";
     private NotificationManager notificationManager;
     private NotificationCompat.Builder notificationBuilder;
     private Handler handler;
     @SuppressLint("StaticFieldLeak")
-    private static ScionLabAS scionLabAS;
+    static ScionLabAS scionLabAS;
     private static ScionAS.State state = ScionAS.State.STOPPED;
     private static Map<String, ScionAS.State> componentState = new HashMap<>();
 
@@ -126,14 +131,16 @@ public class ScionService extends Service {
         }
 
         handler.post(() -> {
-            // make this a foreground service, decreasing the probability that Android arbitrarily kills this service
-            startForeground(NOTIFICATION_ID, notificationBuilder.build());
-            try {
-                scionLabAS.start(scionLabConfigurationInputStream, pingAddress);
-            } catch (IOException e) {
-                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                stopForeground(STOP_FOREGROUND_REMOVE);
-            }
+            Data inputData = new Data.Builder()
+                    .putString(SCIONLAB_CONFIGURATION_URI, scionLabConfigurationUri)
+                    .putString(PING_ADDRESS, pingAddress)
+                    .build();
+
+            OneTimeWorkRequest scionLabWorkRequest = new OneTimeWorkRequest.Builder(ScionLabWorker.class)
+                    .setInputData(inputData)
+                    .build();
+
+            WorkManager.getInstance(this).enqueue(scionLabWorkRequest);
         });
 
         return ret;
@@ -166,7 +173,7 @@ public class ScionService extends Service {
         notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
                 .setSmallIcon(R.drawable.ic_scion_logo)
                 .setContentIntent(PendingIntent.getActivity(this, 0,
-                        MainActivity.bringToForeground(this), 0));
+                        MainActivity.bringToForeground(this), PendingIntent.FLAG_IMMUTABLE));
     }
 
     private void notify(ScionAS.State state, String text) {

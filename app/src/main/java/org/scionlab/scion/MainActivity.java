@@ -124,42 +124,73 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragment = null;
 
-        switch (id) {
-            case R.id.nav_scion_control:
-                if (controlFragment == null) {
-                    controlFragment = new ScionControlFragment();
-                }
-                fragment = controlFragment;
-                break;
-            case R.id.nav_sensor_fetcher:
-                if (sensorFetcherFragment == null) {
-                    sensorFetcherFragment = new SensorFetcherFragment();
-                }
-                fragment = sensorFetcherFragment;
-                break;
-            case R.id.nav_log:
-                if (logFragment == null) {
-                    logFragment = new LogActivity();
-                }
-                fragment = logFragment;
-                break;
-            case R.id.nav_howto:
-                if (howtoFragment == null) {
-                    WebActivity f = new WebActivity();
-                    f.ContentURL = "file:///android_asset/how.html";
-                    howtoFragment = f;
-                }
-                fragment = howtoFragment;
-                break;
-            case R.id.nav_about:
-                if (aboutFragment == null) {
-                    WebActivity f = new WebActivity();
-                    f.ContentURL = "file:///android_asset/about.html";
-                    aboutFragment = f;
-                }
-                fragment = aboutFragment;
-                break;
+        if (id == R.id.nav_scion_control) {
+            if (controlFragment == null) {
+                controlFragment = new ScionControlFragment();
+            }
+            fragment = controlFragment;
+        } else if (id == R.id.nav_sensor_fetcher){
+            if (sensorFetcherFragment == null) {
+                sensorFetcherFragment = new SensorFetcherFragment();
+            }
+            fragment = sensorFetcherFragment;
+        } else if (id ==  R.id.nav_log){
+            if (logFragment == null) {
+                logFragment = new LogActivity();
+            }
+            fragment = logFragment;
+        } else if (id == R.id.nav_howto) {
+            if (howtoFragment == null) {
+                WebActivity f = new WebActivity();
+                f.ContentURL = "file:///android_asset/how.html";
+                howtoFragment = f;
+            }
+            fragment = howtoFragment;
+        } else if (id == R.id.nav_about) {
+            if (aboutFragment == null) {
+                WebActivity f = new WebActivity();
+                f.ContentURL = "file:///android_asset/about.html";
+                aboutFragment = f;
+            }
+            fragment = aboutFragment;
         }
+
+//        switch (id) {
+//            case R.id.nav_scion_control:
+//                if (controlFragment == null) {
+//                    controlFragment = new ScionControlFragment();
+//                }
+//                fragment = controlFragment;
+//                break;
+//            case R.id.nav_sensor_fetcher:
+//                if (sensorFetcherFragment == null) {
+//                    sensorFetcherFragment = new SensorFetcherFragment();
+//                }
+//                fragment = sensorFetcherFragment;
+//                break;
+//            case R.id.nav_log:
+//                if (logFragment == null) {
+//                    logFragment = new LogActivity();
+//                }
+//                fragment = logFragment;
+//                break;
+//            case R.id.nav_howto:
+//                if (howtoFragment == null) {
+//                    WebActivity f = new WebActivity();
+//                    f.ContentURL = "file:///android_asset/how.html";
+//                    howtoFragment = f;
+//                }
+//                fragment = howtoFragment;
+//                break;
+//            case R.id.nav_about:
+//                if (aboutFragment == null) {
+//                    WebActivity f = new WebActivity();
+//                    f.ContentURL = "file:///android_asset/about.html";
+//                    aboutFragment = f;
+//                }
+//                fragment = aboutFragment;
+//                break;
+//        }
 
         if (fragment != null) {
             ft.replace(R.id.main_activity_fragment_view, fragment);
@@ -178,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                         (Map<String, ScionAS.State>) intent.getSerializableExtra(COMPONENT_STATE));
             }
         };
-        registerReceiver(updateUserInterfaceReceiver, new IntentFilter(UPDATE_USER_INTERFACE));
+        registerReceiver(updateUserInterfaceReceiver, new IntentFilter(UPDATE_USER_INTERFACE), RECEIVER_EXPORTED);
         updateUserInterface(ScionService.getState(), ScionService.getComponentState());
     }
 

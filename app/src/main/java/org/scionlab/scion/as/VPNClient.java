@@ -17,6 +17,12 @@
 
 package org.scionlab.scion.as;
 
+import static org.scionlab.scion.as.Config.VPNClient.CONNECTED_STATE;
+import static org.scionlab.scion.as.Config.VPNClient.CRASH_INTERVAL;
+import static org.scionlab.scion.as.Config.VPNClient.NOPROCESS_STATE;
+import static org.scionlab.scion.as.Config.VPNClient.PACKAGE_NAME;
+import static org.scionlab.scion.as.Config.VPNClient.VPN_GENERATE_CONFIG;
+
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -28,8 +34,6 @@ import android.os.RemoteException;
 import de.blinkt.openvpn.api.IOpenVPNAPIService;
 import de.blinkt.openvpn.api.IOpenVPNStatusCallback;
 import timber.log.Timber;
-
-import static org.scionlab.scion.as.Config.VPNClient.*;
 
 class VPNClient extends Component {
     private Service service;

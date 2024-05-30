@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.scionlab.scion">
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <queries>
         <package android:name="de.blinkt.openvpn" />
     </queries>
@@ -13,9 +12,8 @@
         android:label="@string/applicationName"
         android:theme="@style/AppTheme"
         android:allowBackup="true"
-        android:extractNativeLibs="true"
         tools:replace="android:allowBackup">
-            <service android:name="org.scionlab.scion.ScionService"/>
+            <service android:name="org.scionlab.scion.ScionService" android:exported="false"/>
             <activity android:name="org.scionlab.scion.MainActivity"
                 android:exported="true">
                 <intent-filter>
